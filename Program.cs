@@ -1,4 +1,5 @@
 using CypherEngine.Components;
+using CypherEngine.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,5 +24,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+var setupResult = await DataService.SetupDatabase();
 
 app.Run();

@@ -6,14 +6,19 @@ namespace CypherEngine.Services;
 
 public static class DataService
 {
-    public static CSRD Database { get; set; }
+    public static CSRD Database { get; set; } = new();
 
     public static async Task<bool> SetupDatabase()
     {
         try
         {
-            var jsonString = await File.ReadAllTextAsync("../../../CSRD.json");
-            Database = JsonSerializer.Deserialize<CSRD>(jsonString);
+            var jsonString = await File.ReadAllTextAsync("CSRD.json");
+            var maybeDatabase = JsonSerializer.Deserialize<CSRD>(jsonString);
+            if (maybeDatabase is null)
+            {
+                return false;
+            }
+            Database = maybeDatabase;
         }
         catch (Exception ex)
         {
